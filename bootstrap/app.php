@@ -12,6 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
+            'isAuth' => \App\Http\Middleware\isAuth::class,
             'isMember' => \App\Http\Middleware\CheckMembership::class,
         ]);
     })

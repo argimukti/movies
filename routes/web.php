@@ -1,20 +1,31 @@
 <?php
 
-
+use App\Http\Controllers\MovieController;
 use Illuminate\Support\Facades\Route;
 
-for($i = 0; $i <10; $i++){
-    $movies[] = [
-        'title' => 'Movie' . $i,
-        'year' => '2002',
-        'action' => 'Adult'
-    ];
-}
 
-Route::get('/movie/{id}', function($id) use ($movies){
-    return $movies[$id];
-})->middleware('isMember');
 
-Route::get('/pricing', function(){
+
+$movies = [];
+
+Route::group(
+    [
+        'middleware' => ['isAuth'],
+        'prefix' => 'movie',
+        'as' => 'movie.',
+    ],
+    function() use ($movies){
+    Route::get('/',[MovieController::class, 'index']);
+    Route::get('/{id}', [MovieController::class, 'show'])->middleware(['isMember']);
+    Route::post('/', [MovieController::class, 'store']);
+    return $movies;
+});
+
+
+Route::get('/pricing', function () {
     return 'Please, Buy a membership';
 });
+
+Route::get('/login', function () {
+    return 'Login Page';
+})->name('login');

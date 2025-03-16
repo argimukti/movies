@@ -16,19 +16,18 @@ class CheckMembership
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!$request->has('membership')){
+        if (!$request->membership) {
             return redirect('/pricing');
-        };
-        Log::info('Before Request:',[
+        }
+        Log::info('Before Request:', [
             'url' => $request->url(),
             'params' => $request->all(),
         ]);
         $response = $next($request);
-        Log::info('After Request:',[
+        Log::info('After Request:', [
             'url' => $response->getStatusCode(),
-            'params' => $response->getContent()
+            'params' => $response->getContent(),
         ]);
-
 
         return $response;
     }
